@@ -6,30 +6,47 @@
 // denoted by n!, is the product of all positive integers less than or equal to n.
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
-var factorial = function(n) {
+let factorial = function(n) {
+  if (n < 0) {
+    return null;
+  }
+  if (n === 0) {
+    return 1;
+  }
   if (n === 1) return 1;
   return n * factorial(--n);
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
-const sum = (arr, i = 0) => {
-  if (i === arr.length - 1) return arr[arr.length - 1];
-  return arr[i] + sum(arr, ++i);
+let sum = function (arr) {
+  const i = arr.length - 1;
+  if (arr.length === 0) {
+    return 0;
+  }
+  if (arr.length === 1) {
+    return arr[0];
+  }
+  return arr[i] + sum(arr.slice(0, i));
 };
+
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
-const arraySum = (arr, i = 0) => {
-  if (arr[i].constructor === Array) {
-    return arraySum(arr[i], 0);
+let arraySum = (arr) => {
+  let sum = 0; 
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].constructor === Array) {
+      sum += arraySum(arr[i]);
+    } else {
+      sum += arr[i];
+    }
   }
-  if (i === arr.length - 1) return arr[arr.length - 1];
-  return arr[i] + arraySum(arr, ++i);
+  return sum;
 };
 
 // 4. Check if a number is even.
-const isEven = (n) => {
+let isEven = (n) => {
   n = Math.abs(n);
   if (n === 1 || n === 0) {
     return n === 0 ? true : false;
@@ -40,12 +57,35 @@ const isEven = (n) => {
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
-var sumBelow = function(n) {
+let sumBelow = function(n) {
+  if (n === 0) return 0;
+  if (n < 0) return n + 1 + sumBelow(n + 1);
+  else return n - 1 + sumBelow(n - 1);
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  if (x > y) {
+    let output = [].concat(range(y, x));
+    return output.reverse();
+  } else {
+    if (y - x === 1) return [];
+    if (x.constructor === Array) {
+      if (x[x.length - 1] !== y - 1) {
+        x.push(x[x.length - 1] + 1);
+      } else {
+        return x;
+      }
+    } else if (x < y) {
+      let z = [x + 1];
+      return range(z, y);
+    } else {
+      let z = [x - 1];
+      return range(z, y);    
+    }
+    return range(x, y);
+  }
 };
 
 // 7. Compute the exponent of a number.
@@ -162,8 +202,13 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // Example: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34.....
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
-var fibonacci = function(n) {
-};
+let fibonacci = length => {
+    if (length == 1)
+        return [0]
+    let arr = fibonacci(length - 1)
+    arr.push(arr[arr.length - 1] + arr[arr.length - 2] || 1)
+    return arr
+}
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
 // [0,1,1,2,3,5,8,13,21]
